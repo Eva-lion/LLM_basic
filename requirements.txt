@@ -1,0 +1,13 @@
+logging
+pandas
+langchain
+sentence_transformers
+langchain-community
+transformers
+pypdf
+unstructured
+qdrant-client
+gigachat
+python-telegram-bot 
+pyTelegramBotAPI
+python-dotenv
