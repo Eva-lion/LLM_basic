@@ -11,3 +11,4 @@ gigachat
 python-telegram-bot 
 pyTelegramBotAPI
 python-dotenv
+openai
