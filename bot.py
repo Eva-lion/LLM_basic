@@ -19,24 +19,28 @@ def log_message(message: str):
     logging.info(message)
 
 #создание базы данных
+def load_txt_file(file_name): 
+    with open(file_name, 'r', encoding='utf-8') as file: 
+        content = file.read() 
+    return Document(page_content=content) 
 
+def cut_chunks(document, chunk_size=1000, overlap_size=200):
+    content = document.page_content.replace('\n', ' ').strip()
+    chunks = []
+    start = 0
+    max_length = len(content)
 
-def load_txt_file(file_name):
-    with open(file_name, 'r', encoding='utf-8') as file:
-        content = file.read()
-    return Document(page_content=content)
+    while start < max_length:
+        end = start + chunk_size
+        chunk = content[start:end]
+        chunks.append(Document(page_content=chunk))
+        start += chunk_size - overlap_size  # Шаг с учетом перекрытия
 
-def cut_chunks(documents):
-    documents = [documents]
-    separator = '***'
-    split_content = documents[0].page_content.split(separator)
-    documents= [Document(page_content=fragment.replace('\n', '').strip()) for fragment in split_content if fragment.strip()]
-    return documents
+    return chunks
 
-
-file_name = 'docs.txt'
-documents = load_txt_file(file_name)
-documents = cut_chunks(documents)
+file_name = 'docs.txt' 
+document = load_txt_file(file_name) 
+documents = cut_chunks(document)
 
 ENCODER_MODEL_NAME = 'intfloat/multilingual-e5-large'
 model_kwargs = {'device': 'cpu'}
